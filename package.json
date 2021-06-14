@@ -7,26 +7,101 @@
 		"vscode": "^1.54.0"
 	},
 	"categories": [
-		"Other"
+		"Debuggers"
 	],
 	"activationEvents": [
-		"onCommand:master-thesis-vscode-debug.helloWorld"
+		"onDebugAdapterProtocolTracker:rdb_rs"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"commands": [
+		"breakpoints": [
 			{
-				"command": "master-thesis-vscode-debug.helloWorld",
-				"title": "Hello World"
+				"language": "rust"
+			}
+		],
+		"debuggers": [
+			{
+				"type": "rdb_rs",
+				"label": "RDB-RS",
+				"_program": "./target/debug/rdb-rs-debugadapter",
+				"languages": [
+					"rust"
+				],
+				"configurationAttributes": {
+					"attach": {
+						"required": [
+							"program",
+							"chip"
+						],
+						"properties": {
+							"program": {
+								"type": "string",
+								"description": "Path to program to debug",
+								"default": "program.elf"
+							},
+							"chip": {
+								"type": "string",
+								"description": "Chip to debug, e.g. nrf5182"
+							},
+							"cwd": {
+								"type": "string",
+								"description": "Working directory of the debugger, typically the crate root",
+								"default": "${workspaceRoot}"
+							},
+							"server_mode": {
+								"type": "boolean",
+								"description": "Attach in server mode",
+								"default": false
+							},
+							"server_port": {
+								"type": "integer",
+								"description": "Port to attach to in server mode",
+								"default": 8000
+							},
+							"reset": {
+								"type": "boolean",
+								"description": "Reset target when attaching",
+								"default": false
+							},
+							"halt_after_reset": {
+								"type": "boolean",
+								"description": "Halt target after reset",
+								"default": true
+							}
+						}
+					}
+				},
+				"initialConfigurations": [
+					{
+						"type": "rdb_rs",
+						"request": "attach",
+						"name": "rdb-rs Test",
+						"program": "program.elf",
+						"chip": "cortex-m0"
+					}
+				],
+				"configurationSnippets": [
+					{
+						"label": "RDB-RS: Attach",
+						"description": "A new configuration for 'debugging' a user selected markdown file.",
+						"body": {
+							"type": "rdb_rs",
+							"request": "attach",
+							"name": "rdb-rs Test",
+							"program": "program.elf",
+							"chip": "cortex-m0"
+						}
+					}
+				]
 			}
 		]
 	},
 	"scripts": {
-		"vscode:prepublish": "npm run compile",
+		"vscode:prepublish": "yarn run compile",
 		"compile": "tsc -p ./",
+		"lint": "eslint extension_src --ext ts",
 		"watch": "tsc -watch -p ./",
-		"pretest": "npm run compile && npm run lint",
-		"lint": "eslint src --ext ts",
+		"pretest": "yarn run compile && yarn run lint",
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
