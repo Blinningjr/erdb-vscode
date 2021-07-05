@@ -1,6 +1,5 @@
-# master-thesis-vscode-debug README
-
-This is the README for your extension "master-thesis-vscode-debug". After writing up a brief description, we recommend including the following sections.
+# embedded-rust-debugger-vscode
+This is a vscode extension for my [debugger](https://github.com/Blinningjr/embedded-rust-debugger) that debugs embedded rust code.
 
 ## Features
 
