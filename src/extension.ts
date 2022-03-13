@@ -49,82 +49,94 @@ class RdbRsDebugAdapterTracker implements DebugAdapterTracker {
 
 
 class RdbRsDebugAdapterDescriptorFactory implements vscode.DebugAdapterDescriptorFactory {
-
-    erdb_process?: ChildProcessWithoutNullStreams;
-    erdb_process_exited: boolean = true;
-
-    createDebugAdapterDescriptor(session: vscode.DebugSession, executable: vscode.DebugAdapterExecutable | undefined): vscode.ProviderResult<vscode.DebugAdapterDescriptor> {
+    async createDebugAdapterDescriptor(session: vscode.DebugSession, executable: vscode.DebugAdapterExecutable | undefined): Promise<vscode.ProviderResult<vscode.DebugAdapterDescriptor>> {
         console.log("Session: ", session);
         console.log("Configuration: ", session.configuration);
         console.log("executable: ", executable);
 
-        if (!session.configuration.server_mode && this.erdb_process == undefined && this.erdb_process_exited) {
+        if (!session.configuration.server_mode) {
+            console.log("Starting new server on port %d", session.configuration.server_port);
+
             // Start ERDB server
-            this.erdb_process = child_process.spawn(
+            let erdb_process = child_process.spawn(
                 executable?.command == undefined ? "" : executable?.command,
                 executable?.args,
                 executable?.options,
             );
-            this.erdb_process_exited = false;
+            let erdb_process_running = false;
 
             // Kill ERDB process if there is some error.
-            this.erdb_process.on('error', (exit) => {
-                if (!this.erdb_process_exited) {
-                    this.erdb_process_exited = true;
-                    this.erdb_process?.kill;
+            erdb_process.on('error', (exit) => {
+                if (erdb_process_running) {
+                    erdb_process_running = false;
+                    erdb_process?.kill;
                 }
             });
 
-            this.erdb_process.on("close", (close) => {
-                this.erdb_process_exited = true;
-                this.erdb_process?.kill;
+            erdb_process.on("close", (close) => {
+                erdb_process_running = false;
+                erdb_process?.kill;
             });
 
             // Kill ERDB process if parent process disconnects from ERDB porcess.
-            this.erdb_process.on('disconnect', () => {
-                this.erdb_process_exited = true;
-                this.erdb_process?.kill;
+            erdb_process.on('disconnect', () => {
+                erdb_process_running = false;
+                erdb_process?.kill;
             });
 
             //Create output channel
             let erdbChannel = vscode.window.createOutputChannel("erdb");
 
             // Log that the ERDB process is stopped.
-            this.erdb_process.on('exit', (exit) => {
+            erdb_process.on('exit', (exit) => {
                 erdbChannel.appendLine("erdb server stopped");
             });
 
             // Log ERDB server stdout
-            this.erdb_process.stdout.on('data', (data) => {
+            erdb_process.stdout.on('data', (data: string) => {
                 erdbChannel.appendLine(data);
+
+                // Check for server started message.
+                if (data.includes("Starting debug")) {
+                    erdb_process_running = true;
+                }
             });
 
             // Log ERDB server stderr
-            this.erdb_process.stderr.on('data', (data) => {
+            erdb_process.stderr.on('data', (data) => {
                 erdbChannel.appendLine(data);
+
+                // Check for server started message.
+                // TODO: Fix so logs are sent to stdout.
+                if (data.includes("Starting debug")) { 
+                    erdb_process_running = true;
+                }
             });
 
-            (async () => { 
-                // Do something before delay
-                console.log('before delay')
-        
-                //await new Promise(f => setTimeout(f, 2000));
-        
-                // Do something after
-                console.log('after delay')
-            })();  
-               
+
+            let counter = 10;
+            while (!erdb_process_running) {
+                console.log("counter: ", counter);
+                if (counter < 1) {
+                    erdb_process?.kill;
+                    erdb_process_running = false;
+
+                    vscode.window.showErrorMessage("[ERROR] Timedout waiting for ERDB server");
+                    return undefined;
+                }
+                await new Promise(f => setTimeout(f, 1000));
+                
+                counter--;
+            }  
 
         } else {
             console.log("Using existing server on port %d", session.configuration.server_port);
-            // make VS Code connect to debug server
-            return new vscode.DebugAdapterServer(session.configuration.server_port);
         } 
+
+        // make VS Code connect to debug server
         return new vscode.DebugAdapterServer(session.configuration.server_port);
     }
 
     dispose() {
-        this.erdb_process_exited = true;
-        this.erdb_process?.kill();
     }
 }
