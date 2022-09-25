@@ -1,8 +1,9 @@
 {
-	"name": "master-thesis-vscode-debug",
-	"displayName": "master-thesis-vscode-debug",
-	"description": "",
-	"version": "0.0.1",
+	"name": "erdb",
+	"displayName": "ERDB",
+	"description": "Embedded rust debugger",
+	"version": "0.1.0",
+	"repository": "https://github.com/Blinningjr/embedded-rust-debugger-vscode.git",
 	"engines": {
 		"vscode": "^1.54.0"
 	},
@@ -10,7 +11,7 @@
 		"Debuggers"
 	],
 	"activationEvents": [
-		"onDebugAdapterProtocolTracker:rdb_rs"
+		"onDebugAdapterProtocolTracker:ERDB"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -21,14 +22,45 @@
 		],
 		"debuggers": [
 			{
-				"type": "rdb_rs",
-				"label": "RDB-RS",
+				"type": "ERDB",
+				"label": "ERDB",
 				"program": "./target/embedded-rust-debugger",
 				"args": ["-m", "server", "-v", "info"],
 				"languages": [
 					"rust"
 				],
 				"configurationAttributes": {
+					"launch": {
+						"required": [
+							"program",
+							"chip"
+						],
+						"properties": {
+							"program": {
+								"type": "string",
+								"description": "Path of program binary to debug"
+							},
+							"chip": {
+								"type": "string",
+								"description": "Chip to debug, example 'STM32F411RETx'"
+							},
+							"cwd": {
+								"type": "string",
+								"description": "Project work directory",
+								"default": "${workspaceRoot}"
+							},
+							"port": {
+								"type": "integer",
+								"description": "Port to use",
+								"default": 8800
+							},
+							"halt_after_reset": {
+								"type": "boolean",
+								"description": "Halt target after resting it",
+								"default": false
+							}
+						}
+					},
 					"attach": {
 						"required": [
 							"program",
@@ -37,60 +69,85 @@
 						"properties": {
 							"program": {
 								"type": "string",
-								"description": "Path to program to debug",
-								"default": "program.elf"
+								"description": "Path of program binary to debug"
 							},
 							"chip": {
 								"type": "string",
-								"description": "Chip to debug, e.g. nrf5182"
+								"description": "Chip to debug, example 'STM32F411RETx'"
 							},
 							"cwd": {
 								"type": "string",
-								"description": "Working directory of the debugger, typically the crate root",
+								"description": "Project work directory",
 								"default": "${workspaceRoot}"
 							},
-							"server_mode": {
+							"remote": {
 								"type": "boolean",
-								"description": "Attach in server mode",
+								"description": "Attach to running ERDB server",
 								"default": false
 							},
-							"server_port": {
+							"port": {
 								"type": "integer",
-								"description": "Port to attach to in server mode",
-								"default": 8000
+								"description": "Port to use",
+								"default": 8800
 							},
 							"reset": {
 								"type": "boolean",
-								"description": "Reset target when attaching",
+								"description": "Reset target after attaching to the probe",
 								"default": false
 							},
 							"halt_after_reset": {
 								"type": "boolean",
-								"description": "Halt target after reset",
-								"default": true
+								"description": "Halt target after resting it",
+								"default": false
 							}
 						}
 					}
 				},
 				"initialConfigurations": [
 					{
-						"type": "rdb_rs",
+						"type": "ERDB",
+						"request": "launch",
+						"name": "ERDB: Launch",
+						"program": "${workspaceRoot}/target/debug/<binary-name>",
+						"chip": "<chip-name>",
+						"port": 8800
+					},
+					{
+						"type": "ERDB",
 						"request": "attach",
-						"name": "rdb-rs Test",
-						"program": "program.elf",
-						"chip": "cortex-m0"
+						"name": "ERDB: Attach",
+						"program": "${workspaceRoot}/target/debug/<binary-name>",
+						"chip": "<chip-name>",
+						"port": 8800,
+						"reset": false,
+						"remote": false
 					}
 				],
 				"configurationSnippets": [
 					{
-						"label": "RDB-RS: Attach",
-						"description": "A new configuration for 'debugging' a user selected markdown file.",
+						"label": "ERDB: Launch configuration",
+						"description": "A new configuration for launching a program.",
 						"body": {
-							"type": "rdb_rs",
+							"type": "ERDB",
+							"request": "launch",
+							"name": "ERDB: Launch",
+							"program": "${workspaceRoot}/target/debug/<binary-name>",
+							"chip": "<chip-name>",
+							"port": 8800
+						}
+					},
+					{
+						"label": "ERDB: Attach configuration",
+						"description": "A new configuration for attaching to a running program.",
+						"body": {
+							"type": "ERDB",
 							"request": "attach",
-							"name": "rdb-rs Test",
-							"program": "program.elf",
-							"chip": "cortex-m0"
+							"name": "ERDB: Attach",
+							"program": "${workspaceRoot}/target/debug/<binary-name>",
+							"chip": "<chip-name>",
+							"port": 8800,
+							"reset": false,
+							"remote": false
 						}
 					}
 				]
