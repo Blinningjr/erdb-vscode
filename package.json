@@ -2,6 +2,7 @@
 	"name": "erdb",
 	"displayName": "ERDB",
 	"description": "Embedded rust debugger",
+	"publisher": "blinningjr",
 	"version": "0.1.0",
 	"repository": "https://github.com/Blinningjr/embedded-rust-debugger-vscode.git",
 	"engines": {
@@ -24,7 +25,7 @@
 			{
 				"type": "ERDB",
 				"label": "ERDB",
-				"program": "./target/embedded-rust-debugger",
+				"program": "./bin/embedded-rust-debugger",
 				"args": ["-m", "server", "-v", "info"],
 				"languages": [
 					"rust"
@@ -80,11 +81,6 @@
 								"description": "Project work directory",
 								"default": "${workspaceRoot}"
 							},
-							"remote": {
-								"type": "boolean",
-								"description": "Attach to running ERDB server",
-								"default": false
-							},
 							"port": {
 								"type": "integer",
 								"description": "Port to use",
@@ -119,8 +115,7 @@
 						"program": "${workspaceRoot}/target/debug/<binary-name>",
 						"chip": "<chip-name>",
 						"port": 8800,
-						"reset": false,
-						"remote": false
+						"reset": false
 					}
 				],
 				"configurationSnippets": [
@@ -146,8 +141,7 @@
 							"program": "${workspaceRoot}/target/debug/<binary-name>",
 							"chip": "<chip-name>",
 							"port": 8800,
-							"reset": false,
-							"remote": false
+							"reset": false
 						}
 					}
 				]
