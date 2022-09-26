@@ -34,16 +34,20 @@
 					"launch": {
 						"required": [
 							"program",
-							"chip"
+							"chip",
+							"cwd",
+							"port"
 						],
 						"properties": {
 							"program": {
 								"type": "string",
-								"description": "Path of program binary to debug"
+								"description": "Path of program binary to debug",
+								"default": "${workspaceRoot}/target/debug/<binary-name>"
 							},
 							"chip": {
 								"type": "string",
-								"description": "Chip to debug, example 'STM32F411RETx'"
+								"description": "Chip to debug, example 'STM32F411RETx'",
+								"default": "STM32F411RETx"
 							},
 							"cwd": {
 								"type": "string",
