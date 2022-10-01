@@ -54,6 +54,10 @@ The MCU chip type that the debug target has.
 
 ## Release Notes
 
+### 0.1.1
+
+Added icon.
+
 ### 0.1.0
 
 Initial release
