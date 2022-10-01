@@ -25,7 +25,9 @@
 			{
 				"type": "ERDB",
 				"label": "ERDB",
-				"program": "./bin/embedded-rust-debugger",
+				"linux": {
+					"program": "./erdb/run-erdb.sh"
+				},
 				"args": ["-m", "server", "-v", "info"],
 				"languages": [
 					"rust"

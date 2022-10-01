@@ -13,7 +13,6 @@
             "label": "Extension build",
             "dependsOrder": "sequence",
             "dependsOn": [
-                "cargo: build",
                 "npm: compile"
             ],
             "group": {

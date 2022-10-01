@@ -1,51 +1,59 @@
-# embedded-rust-debugger-vscode
-This is a vscode extension for my [debugger](https://github.com/Blinningjr/embedded-rust-debugger) that debugs embedded rust code.
+# Embedded Rust Debugger (ERDB)
+
+Extension for the debugger [Embedded Rust Debugger (ERDB)](https://github.com/Blinningjr/erdb).
+
+ERDB is a rust debugger for embedded systems.
+It currently only works on Linux, and is only tested on a `STM32F411RETx` dev board. 
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+* Flash target.
+* Continue, halt, step, and reset program.
+* Set and clear hardware breakpoints.
+* Show variables, registers, and stack trace.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+Check that `ERDB` is installed by running `erdb` in a terminal, if not installed then install it with the following command.
+
+```sh
+cargo install erdb
+```
+
+The debug target must be connected to the host, and the binary must contain the debug information section.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+It is required to fill in some information in the `launch.json` file.
+The following subsections describe some of them.
 
-For example:
+### Program
 
-This extension contributes the following settings:
+The absolute path to the program binary, which can be used to flash the target, and contains the debug information.
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+#### Examples
+* `"program": "${workspaceRoot}/target/debug/<program name>"`
+* `"program": "${workspaceRoot}/target/thumbv7em-none-eabi/debug/nucleo-rtic-blinking-led"`
+
+### Chip
+
+The MCU chip type that the debug target has.
+
+#### Example
+`"chip": "STM32F411RETx"`
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+* Only supports having one debug session.
+* All step buttons perform the same type of step operation, that is stepping a single machine code instruction.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.1.0
 
-### 1.0.0
+Initial release
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
+<!---
 -----------------------------------------------------------------------------------------------------------
 ## Following extension guidelines
 
@@ -67,3 +75,4 @@ Ensure that you've read through the extensions guidelines and follow the best pr
 * [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
 **Enjoy!**
+-->
