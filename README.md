@@ -31,6 +31,8 @@ The following subsections describe some of them.
 
 The absolute path to the program binary, which can be used to flash the target, and contains the debug information.
 
+If you get the error `No such file or directory` then this path is not set correctly.
+
 #### Examples
 * `"program": "${workspaceRoot}/target/debug/<program name>"`
 * `"program": "${workspaceRoot}/target/thumbv7em-none-eabi/debug/nucleo-rtic-blinking-led"`
@@ -44,6 +46,7 @@ The MCU chip type that the debug target has.
 
 ## Known Issues
 
+* The launch command does not build the program, therefore always build before debugging.
 * Only supports having one debug session.
 * All step buttons perform the same type of step operation, that is stepping a single machine code instruction.
 
