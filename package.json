@@ -2,11 +2,24 @@
 	"name": "erdb",
 	"displayName": "ERDB",
 	"description": "Embedded rust debugger",
-	"publisher": "blinningjr",
 	"version": "0.1.0",
-	"repository": "https://github.com/Blinningjr/embedded-rust-debugger-vscode.git",
+	"publisher": "blinningjr",
+	"author": {
+		"name": "Niklas Lundberg"
+	},
+	"license": "(MIT OR Apache-2.0)",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Blinningjr/embedded-rust-debugger-vscode.git"
+	},
+	"keywords": [
+		"debugger",
+		"debug",
+		"rust",
+		"embedded"
+	],
 	"engines": {
-		"vscode": "^1.54.0"
+		"vscode": "^1.71.2"
 	},
 	"categories": [
 		"Debuggers"
