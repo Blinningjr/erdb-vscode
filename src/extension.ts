@@ -83,34 +83,18 @@ class ErdbDebugAdapterDescriptorFactory implements vscode.DebugAdapterDescriptor
 
             this.erdbProcess.on("close", (code) => {
                 this.erdbChannel?.appendLine("ERDB process closed, code: " + code);
-                if (this.erdbProcess) {
-                    console.log("kill:", this.erdbProcess?.kill(1));
-                    this.erdbProcess = undefined;
-                }
             });
 
             this.erdbProcess.on("disconnect", () => {
                 this.erdbChannel?.appendLine("ERDB process disconnected");
-                if (this.erdbProcess) {
-                    console.log("kill:", this.erdbProcess?.kill(1));
-                    this.erdbProcess = undefined;
-                }
             });
 
             this.erdbProcess.on('error', (err) => {
                 this.erdbChannel?.appendLine("ERDB process error" + err);
-                if (this.erdbProcess) {
-                    console.log("kill:", this.erdbProcess?.kill(1));
-                    this.erdbProcess = undefined;
-                }
             });
 
             this.erdbProcess.on('exit', (code) => {
                 this.erdbChannel?.appendLine("ERDB process exit, code: " + code);
-                if (this.erdbProcess) {
-                    console.log("kill:", this.erdbProcess?.kill(1));
-                    this.erdbProcess = undefined;
-                }
             });
 
             // Log ERDB server stdout
