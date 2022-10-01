@@ -3,7 +3,7 @@
 	"displayName": "ERDB",
 	"description": "Embedded rust debugger",
 	"version": "0.1.0",
-	"publisher": "blinningjr",
+	"publisher": "Blinningjr",
 	"author": {
 		"name": "Niklas Lundberg"
 	},
