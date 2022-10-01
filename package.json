@@ -28,7 +28,12 @@
 				"linux": {
 					"program": "./erdb/run-erdb.sh"
 				},
-				"args": ["-m", "server", "-v", "info"],
+				"args": [
+					"-m",
+					"server",
+					"-v",
+					"info"
+				],
 				"languages": [
 					"rust"
 				],
