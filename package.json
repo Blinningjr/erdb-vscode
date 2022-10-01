@@ -12,6 +12,7 @@
 		"type": "git",
 		"url": "https://github.com/Blinningjr/embedded-rust-debugger-vscode.git"
 	},
+	"icon": "images/erdb.png",
 	"keywords": [
 		"debugger",
 		"debug",
