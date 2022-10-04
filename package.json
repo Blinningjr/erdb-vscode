@@ -2,7 +2,7 @@
 	"name": "erdb",
 	"displayName": "ERDB",
 	"description": "Embedded rust debugger",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"publisher": "Blinningjr",
 	"author": {
 		"name": "Niklas Lundberg"
