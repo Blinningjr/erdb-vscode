@@ -1,9 +1,13 @@
 # Change Log
 
-All notable changes to the "master-thesis-vscode-debug" extension will be documented in this file.
+## 0.1.2
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+Added `cwd` to initial configuration and configuration snippet.
 
-## [Unreleased]
+## 0.1.1
 
-- Initial release
+Added icon.
+
+## 0.1.0
+
+Initial release
