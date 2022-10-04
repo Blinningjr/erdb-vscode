@@ -39,15 +39,6 @@
 			{
 				"type": "ERDB",
 				"label": "ERDB",
-				"linux": {
-					"program": "./erdb/run-erdb.sh"
-				},
-				"args": [
-					"-m",
-					"server",
-					"-v",
-					"info"
-				],
 				"languages": [
 					"rust"
 				],

@@ -62,7 +62,7 @@ class ErdbDebugAdapterDescriptorFactory implements vscode.DebugAdapterDescriptor
         if (!this.erdbProcess) {
             console.log("Starting new server on port %d", session.configuration.port);
 
-            let erdbArgs = executable?.args;
+            let erdbArgs = ["-m", "server", "-v", "info"];
             if (session?.configuration.port !== undefined) {
                 erdbArgs?.push("--port", session?.configuration.port.toString());
             }
@@ -73,10 +73,11 @@ class ErdbDebugAdapterDescriptorFactory implements vscode.DebugAdapterDescriptor
 
             // Start ERDB server
             this.erdbProcess = child_process.spawn(
-                executable?.command === undefined ? "" : executable?.command,
+                "erdb",
                 erdbArgs,
                 executable?.options,
             );
+            console.log("process: ", this.erdbProcess);
             
             //Create output channel
             this.erdbChannel = vscode.window.createOutputChannel("ERDB");
@@ -144,9 +145,7 @@ class ErdbDebugAdapterDescriptorFactory implements vscode.DebugAdapterDescriptor
     }
 
     dispose() {
-        if (this.erdbProcess)  {
-            console.log("kill:", this.erdbProcess?.kill(1));
-            this.erdbProcess = undefined;
-        }
+        console.log("kill:", this.erdbProcess?.kill(1));
+        this.erdbProcess = undefined;
     }
 }
