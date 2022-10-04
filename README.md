@@ -5,10 +5,6 @@ Extension for the debugger [Embedded Rust Debugger (ERDB)](https://github.com/Bl
 ERDB is a rust debugger for embedded systems.
 It currently only works on Linux, and is only tested on a `STM32F411RETx` dev board.
 
-| :warning: WARNING          |
-|:---------------------------|
-| The ERDB server process is not stopped/killed when Vscode is closed. |
-
 ## Features
 
 * Flash target.
@@ -52,7 +48,6 @@ The MCU chip type that the debug target has.
 
 ## Known Issues
 
-* The ERDB server process is not stopped when Vscode is closed.
 * The launch command does not build the program, therefore always build before debugging.
 * Only supports having one debug session.
 * All step buttons perform the same type of step operation, that is stepping a single machine code instruction.
@@ -61,15 +56,16 @@ The MCU chip type that the debug target has.
 
 ### 0.1.2
 
-Fixed bug in `attach` and `launch` configuration.
+* Fixed bug where the ERDB server was not killed when Vscode closed.
+* Fixed bug in `attach` and `launch` configuration.
 
 ### 0.1.1
 
-Added icon.
+* Added icon.
 
 ### 0.1.0
 
-Initial release
+* Initial release
 
 ## License
 
