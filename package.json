@@ -2,7 +2,7 @@
 	"name": "erdb",
 	"displayName": "ERDB",
 	"description": "Embedded rust debugger",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"publisher": "Blinningjr",
 	"author": {
 		"name": "Niklas Lundberg"
@@ -53,8 +53,8 @@
 						"properties": {
 							"program": {
 								"type": "string",
-								"description": "Path of program binary to debug",
-								"default": "${workspaceRoot}/target/debug/<binary-name>"
+								"description": "Absolute path to the program binary",
+								"default": "${workspaceFolder}/target/thumbv7em-none-eabi/debug/${workspaceFolderBasename}"
 							},
 							"chip": {
 								"type": "string",
@@ -63,8 +63,8 @@
 							},
 							"cwd": {
 								"type": "string",
-								"description": "Project work directory",
-								"default": "${workspaceRoot}"
+								"description": "Absolute path to the project work directory",
+								"default": "${workspaceFolder}"
 							},
 							"port": {
 								"type": "integer",
@@ -86,16 +86,18 @@
 						"properties": {
 							"program": {
 								"type": "string",
-								"description": "Path of program binary to debug"
+								"description": "Absolute path to the program binary",
+								"default": "${workspaceFolder}/target/thumbv7em-none-eabi/debug/${workspaceFolderBasename}"
 							},
 							"chip": {
 								"type": "string",
-								"description": "Chip to debug, example 'STM32F411RETx'"
+								"description": "Chip to debug, example 'STM32F411RETx'",
+								"default": "STM32F411RETx"
 							},
 							"cwd": {
 								"type": "string",
-								"description": "Project work directory",
-								"default": "${workspaceRoot}"
+								"description": "Absolute path to the project work directory",
+								"default": "${workspaceFolder}"
 							},
 							"port": {
 								"type": "integer",
@@ -120,18 +122,18 @@
 						"type": "ERDB",
 						"request": "launch",
 						"name": "ERDB: Launch",
-						"program": "${workspaceRoot}/target/debug/<binary-name>",
+						"program": "${workspaceFolder}/target/thumbv7em-none-eabi/debug/${workspaceFolderBasename}",
 						"chip": "<chip-name>",
-						"cwd": "${workspaceRoot}",
+						"cwd": "${workspaceFolder}",
 						"port": 8800
 					},
 					{
 						"type": "ERDB",
 						"request": "attach",
 						"name": "ERDB: Attach",
-						"program": "${workspaceRoot}/target/debug/<binary-name>",
+						"program": "${workspaceFolder}/target/thumbv7em-none-eabi/debug/${workspaceFolderBasename}",
 						"chip": "<chip-name>",
-						"cwd": "${workspaceRoot}",
+						"cwd": "${workspaceFolder}",
 						"port": 8800,
 						"reset": false
 					}
@@ -144,9 +146,9 @@
 							"type": "ERDB",
 							"request": "launch",
 							"name": "ERDB: Launch",
-							"program": "${workspaceRoot}/target/debug/<binary-name>",
+							"program": "${workspaceFolder}/target/thumbv7em-none-eabi/debug/${workspaceFolderBasename}",
 							"chip": "<chip-name>",
-							"cwd": "${workspaceRoot}",
+							"cwd": "${workspaceFolder}",
 							"port": 8800
 						}
 					},
@@ -157,9 +159,9 @@
 							"type": "ERDB",
 							"request": "attach",
 							"name": "ERDB: Attach",
-							"program": "${workspaceRoot}/target/debug/<binary-name>",
+							"program": "${workspaceFolder}/target/thumbv7em-none-eabi/debug/${workspaceFolderBasename}",
 							"chip": "<chip-name>",
-							"cwd": "${workspaceRoot}",
+							"cwd": "${workspaceFolder}",
 							"port": 8800,
 							"reset": false
 						}
